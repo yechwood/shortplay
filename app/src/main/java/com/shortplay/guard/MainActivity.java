@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
     @Override protected void onResume(){ super.onResume(); if(refreshAfterSettings && prefs!=null){ refreshAfterSettings=false; showHome(); } }
     TextView label(String s){TextView t=text(s,12);t.setTextColor(Color.GRAY);t.setPadding(0,dp(10),0,0);return t;}
     void applyFilters(){sortMedia();}
-    Button smallButton(String s){MaterialButton b=new MaterialButton(this);b.setText(s);b.setTextSize(12);b.setAllCaps(false);b.setMinHeight(dp(44));b.setMinimumHeight(dp(44));b.setInsetTop(0);b.setInsetBottom(0);b.setCornerRadius(dp(16));b.setPadding(dp(10),0,dp(10),0);b.setStateListAnimator(null);b.setContentDescription(s);return b;}
+    Button smallButton(String s){MaterialButton b=new MaterialButton(this);b.setText(s);b.setTextSize(12);b.setAllCaps(false);b.setMinHeight(dp(44));b.setMinimumHeight(dp(44));b.setInsetTop(0);b.setInsetBottom(0);b.setCornerRadius(dp(16));b.setContentPadding(dp(10),0,dp(10),0);b.setStateListAnimator(null);b.setContentDescription(s);return b;}
     String format(long ms){long sec=Math.max(0,ms/1000),m=sec/60,h=m/60;return h>0?h+"h "+m%60+"m":m+"m";}
     String formatDuration(long ms){long sec=Math.max(0,ms/1000);return String.format(Locale.US,"%d:%02d",(sec/60)%60,sec%60);}
     void toast(String s){Toast.makeText(this,s,Toast.LENGTH_LONG).show();}
