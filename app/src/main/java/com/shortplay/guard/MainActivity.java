@@ -234,26 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 try{Uri u=x.uri;if(Build.VERSION.SDK_INT>=29)u=MediaStore.setRequireOriginal(u);try(InputStream in=getContentResolver().openInputStream(u)){if(in!=null){ExifInterface e=new ExifInterface(in);double[] ll=e.getLatLong();if(ll!=null)location=String.format(Locale.US,"%.6f, %.6f",ll[0],ll[1]);}}}catch(Exception ignored){}
             }
             final String loc=location;final long bytes=size;
-            runOnUiThread(()->info.setText("Name
-"+x.name+"
-
-Folder
-"+x.folder+"
-
-Dimensions
-"+x.width+" × "+x.height+(x.video?"
-
-Duration
-"+formatDuration(x.duration):"")+"
-
-Size
-"+formatBytes(bytes)+"
-
-Date
-"+date+"
-
-Location
-"+loc));
+            runOnUiThread(()->info.setText("Name\\n"+x.name+"\\n\\nFolder\\n"+x.folder+"\\n\\nDimensions\\n"+x.width+" × "+x.height+(x.video?"\\n\\nDuration\\n"+formatDuration(x.duration):"")+"\\n\\nSize\\n"+formatBytes(bytes)+"\\n\\nDate\\n"+date+"\\n\\nLocation\\n"+loc));
         }).start();
         new AlertDialog.Builder(this).setView(box).setPositiveButton("Done",null).show();
     }
