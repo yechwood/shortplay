@@ -44,5 +44,5 @@ final class ThemeUtils {
     static int surfaceContainer(Context c){return color(c,com.google.android.material.R.attr.colorSurfaceContainer,0xFF1B1F24);}
     static int onSurface(Context c){return color(c,com.google.android.material.R.attr.colorOnSurface,0xFFFFFFFF);}
     static int onSurfaceVariant(Context c){return color(c,com.google.android.material.R.attr.colorOnSurfaceVariant,0xFFBEC7C4);}
-    static int primary(Context c){return color(c,com.google.android.material.R.attr.colorPrimary,0xFF6DE7C5);}
+    static int primary(Context c){return color(c,androidx.appcompat.R.attr.colorPrimary,0xFF6DE7C5);}
 }
