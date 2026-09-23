@@ -148,7 +148,8 @@ public class MainActivity extends AppCompatActivity {
     }
     void loadThumbnail(MediaItemData x,ImageView target){Uri u=x.uri;new Thread(()->{Bitmap b=null;try{if(Build.VERSION.SDK_INT>=29)b=getContentResolver().loadThumbnail(u,new android.util.Size(dp(360),dp(300)),null);else if(x.video){MediaMetadataRetriever r=new MediaMetadataRetriever();r.setDataSource(this,u);b=r.getFrameAtTime(0,MediaMetadataRetriever.OPTION_CLOSEST_SYNC);r.release();}else{try(InputStream in=getContentResolver().openInputStream(u)){b=BitmapFactory.decodeStream(in);}}}catch(Exception ignored){}Bitmap z=b;runOnUiThread(()->{if(z!=null&&u.equals(target.getTag()))target.setImageBitmap(z);});}).start();}
 
-    void openViewer(int index){openViewer(index,null);}\n    void openViewer(int index,View sourceView){
+    void openViewer(int index){openViewer(index,null);}
+    void openViewer(int index,View sourceView){
         savedPosition();
         viewerIndex=index;viewerDialog=new Dialog(this,R.style.ViewerTheme);
         FrameLayout box=new FrameLayout(this);box.setBackgroundColor(Color.BLACK);
@@ -161,7 +162,9 @@ public class MainActivity extends AppCompatActivity {
         back.setOnClickListener(v->closeViewerAnimated(sourceView));more.setOnClickListener(v->{if(viewerIndex>=0)showMediaMenu(media.get(viewerIndex));});
         viewerDialog.setContentView(box);viewerDialog.setOnDismissListener(v->{releaseViewerPlayer();restorePosition();});viewerDialog.setOnKeyListener((d,key,event)->{if(key==android.view.KeyEvent.KEYCODE_BACK&&event.getAction()==android.view.KeyEvent.ACTION_UP){closeViewerAnimated();return true;}return false;});viewerDialog.setOnShowListener(v->{immersive(viewerDialog);box.setScaleX(.86f);box.setScaleY(.86f);box.setAlpha(.2f);box.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(230).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();});viewerDialog.show();immersive(viewerDialog);showViewerItem(index);if(sourceView!=null)animateViewerFromGrid(sourceView);
     }
-    void animateViewerFromGrid(View source){if(viewerImage==null||source==null)return;source.post(()->{int[] a=new int[2],b=new int[2];source.getLocationOnScreen(a);viewerImage.getLocationOnScreen(b);float tx=a[0]+source.getWidth()/2f-(b[0]+viewerImage.getWidth()/2f);float ty=a[1]+source.getHeight()/2f-(b[1]+viewerImage.getHeight()/2f);float sx=Math.max(.18f,source.getWidth()/(float)Math.max(1,viewerImage.getWidth()));float sy=Math.max(.18f,source.getHeight()/(float)Math.max(1,viewerImage.getHeight()));viewerImage.setPivotX(viewerImage.getWidth()/2f);viewerImage.setPivotY(viewerImage.getHeight()/2f);viewerImage.setTranslationX(tx);viewerImage.setTranslationY(ty);viewerImage.setScaleX(sx);viewerImage.setScaleY(sy);viewerImage.animate().translationX(0).translationY(0).scaleX(1f).scaleY(1f).setDuration(280).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();});}\n    void closeViewerAnimated(View source){if(viewerDialog==null||!viewerDialog.isShowing())return;if(source==null){closeViewerAnimated();return;}int[] a=new int[2],b=new int[2];source.getLocationOnScreen(a);viewerImage.getLocationOnScreen(b);float tx=a[0]+source.getWidth()/2f-(b[0]+viewerImage.getWidth()/2f);float ty=a[1]+source.getHeight()/2f-(b[1]+viewerImage.getHeight()/2f);float sx=Math.max(.18f,source.getWidth()/(float)Math.max(1,viewerImage.getWidth()));float sy=Math.max(.18f,source.getHeight()/(float)Math.max(1,viewerImage.getHeight()));viewerImage.animate().translationX(tx).translationY(ty).scaleX(sx).scaleY(sy).alpha(.25f).setDuration(220).withEndAction(()->viewerDialog.dismiss()).start();}\n    void closeViewerAnimated(){if(viewerDialog==null||!viewerDialog.isShowing())return;View v=viewerDialog.getWindow()==null?null:viewerDialog.getWindow().getDecorView();if(v!=null)v.animate().scaleX(.88f).scaleY(.88f).alpha(0f).setDuration(180).withEndAction(()->viewerDialog.dismiss()).start();else viewerDialog.dismiss();}
+    void animateViewerFromGrid(View source){if(viewerImage==null||source==null)return;source.post(()->{int[] a=new int[2],b=new int[2];source.getLocationOnScreen(a);viewerImage.getLocationOnScreen(b);float tx=a[0]+source.getWidth()/2f-(b[0]+viewerImage.getWidth()/2f);float ty=a[1]+source.getHeight()/2f-(b[1]+viewerImage.getHeight()/2f);float sx=Math.max(.18f,source.getWidth()/(float)Math.max(1,viewerImage.getWidth()));float sy=Math.max(.18f,source.getHeight()/(float)Math.max(1,viewerImage.getHeight()));viewerImage.setPivotX(viewerImage.getWidth()/2f);viewerImage.setPivotY(viewerImage.getHeight()/2f);viewerImage.setTranslationX(tx);viewerImage.setTranslationY(ty);viewerImage.setScaleX(sx);viewerImage.setScaleY(sy);viewerImage.animate().translationX(0).translationY(0).scaleX(1f).scaleY(1f).setDuration(280).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();});}
+    void closeViewerAnimated(View source){if(viewerDialog==null||!viewerDialog.isShowing())return;if(source==null){closeViewerAnimated();return;}int[] a=new int[2],b=new int[2];source.getLocationOnScreen(a);viewerImage.getLocationOnScreen(b);float tx=a[0]+source.getWidth()/2f-(b[0]+viewerImage.getWidth()/2f);float ty=a[1]+source.getHeight()/2f-(b[1]+viewerImage.getHeight()/2f);float sx=Math.max(.18f,source.getWidth()/(float)Math.max(1,viewerImage.getWidth()));float sy=Math.max(.18f,source.getHeight()/(float)Math.max(1,viewerImage.getHeight()));viewerImage.animate().translationX(tx).translationY(ty).scaleX(sx).scaleY(sy).alpha(.25f).setDuration(220).withEndAction(()->viewerDialog.dismiss()).start();}
+    void closeViewerAnimated(){if(viewerDialog==null||!viewerDialog.isShowing())return;View v=viewerDialog.getWindow()==null?null:viewerDialog.getWindow().getDecorView();if(v!=null)v.animate().scaleX(.88f).scaleY(.88f).alpha(0f).setDuration(180).withEndAction(()->viewerDialog.dismiss()).start();else viewerDialog.dismiss();}
     void immersive(Dialog d){ if(d==null||d.getWindow()==null)return; WindowCompat.enableEdgeToEdge(d.getWindow()); WindowInsetsControllerCompat ctl=WindowCompat.getInsetsController(d.getWindow(),d.getWindow().getDecorView()); ctl.hide(WindowInsetsCompat.Type.systemBars()); ctl.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE); }
     void animateViewerTo(int n,boolean forward){if(viewerIndex<0)return;final float w=Math.max(1,viewerImage.getWidth());viewerImage.animate().translationX(forward?-w:w).setDuration(140).withEndAction(()->{viewerImage.setTranslationX(forward?w:-w);showViewerItem(n);viewerImage.animate().translationX(0).setDuration(190).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();}).start();}
     void showViewerItem(int i){if(viewerDialog==null||!viewerDialog.isShowing()||i<0||i>=media.size())return;viewerIndex=i;MediaItemData x=media.get(i);viewerTitle.setText("");releaseViewerPlayer();viewerImage.setScale(1f,false);viewerImage.setTranslationX(0);viewerImage.setVisibility(x.video?View.GONE:View.VISIBLE);viewerPlayer.setVisibility(x.video?View.VISIBLE:View.GONE);if(x.video)startViewerVideo(x);else{viewerImage.setImageDrawable(null);new Thread(()->{try{Bitmap b=loadFullBitmap(x.uri);runOnUiThread(()->{if(viewerIndex==i)viewerImage.setImageBitmap(b);});}catch(Exception ignored){}}).start();}}
@@ -231,7 +234,26 @@ public class MainActivity extends AppCompatActivity {
                 try{Uri u=x.uri;if(Build.VERSION.SDK_INT>=29)u=MediaStore.setRequireOriginal(u);try(InputStream in=getContentResolver().openInputStream(u)){if(in!=null){ExifInterface e=new ExifInterface(in);double[] ll=e.getLatLong();if(ll!=null)location=String.format(Locale.US,"%.6f, %.6f",ll[0],ll[1]);}}}catch(Exception ignored){}
             }
             final String loc=location;final long bytes=size;
-            runOnUiThread(()->info.setText("Name\n"+x.name+"\n\nFolder\n"+x.folder+"\n\nDimensions\n"+x.width+" × "+x.height+(x.video?"\n\nDuration\n"+formatDuration(x.duration):"")+"\n\nSize\n"+formatBytes(bytes)+"\n\nDate\n"+date+"\n\nLocation\n"+loc));
+            runOnUiThread(()->info.setText("Name
+"+x.name+"
+
+Folder
+"+x.folder+"
+
+Dimensions
+"+x.width+" × "+x.height+(x.video?"
+
+Duration
+"+formatDuration(x.duration):"")+"
+
+Size
+"+formatBytes(bytes)+"
+
+Date
+"+date+"
+
+Location
+"+loc));
         }).start();
         new AlertDialog.Builder(this).setView(box).setPositiveButton("Done",null).show();
     }
