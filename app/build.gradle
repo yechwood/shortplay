@@ -1,0 +1,31 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.shortplay.guard'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'com.shortplay.guard'
+        minSdk 26
+        targetSdk 35
+        versionCode 6
+        versionName '1.5.0'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation "androidx.media3:media3-exoplayer:1.11.1"
+    implementation "androidx.media3:media3-ui:1.11.1"
+    implementation "androidx.recyclerview:recyclerview:1.4.0"
+    implementation "androidx.appcompat:appcompat:1.8.0"
+    implementation "androidx.core:core:1.17.0"
+    implementation "com.google.android.material:material:1.14.0"
+    implementation "androidx.exifinterface:exifinterface:1.4.2"
+    implementation "com.github.chrisbanes:PhotoView:2.3.0"
+    implementation "com.github.yalantis:ucrop:2.2.8"
+}
